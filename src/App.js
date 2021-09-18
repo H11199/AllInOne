@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import HomePage from "./components/HomePage/HomePage";
+import { BrowserRouter, Route } from "react-router-dom";
+import Login from "./components/Admin/Login";
+import CreatePost from "./components/Admin/CreatePost";
+import { AuthProvider } from "./components/Admin/Auth";
+import PrivateRoute from "./components/Admin/PrivateRoute";
+import PostView from "./components/PostViews/PostView";
+import RealPostView from "./components/PostViews/RealPostView";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="App">
+          <PrivateRoute exact path="/createPost" component={CreatePost} />
+          <Route path="/" exact component={HomePage} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/preview" exact component={PostView} />
+          <Route path="/post/:postId" exact component={RealPostView} />
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
